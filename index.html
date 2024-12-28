@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposal</title>
+    <link rel="stylesheet" href="./sass/style.css">
+</head>
+<body>
+    <div class="klic" id="main-content">
+        <div class="klic_main">
+            <p class="text">Выйдешь за меня?</p>
+            <div class="yesno">
+                <!-- Кнопка Yes -->
+                <label for="toggle" class="button vybor Klick-yes">Yes</label>
+                <!-- Скрытый чекбокс -->
+                <input type="checkbox" id="toggle" class="hidden-checkbox">
+                <!-- Скрытый текст -->
+                <div class="hidden-text">
+                    ПРОСТО ОТЛИЧНО, ПОЗДРАВЛЯЮ С ЖЕНИТЬБОЙ
+                    <!-- Скрытый аудиоплеер -->
+                    <audio id="hidden-audio">
+                        <source src="./audio/felix-mendelssohn_-_svadebnyy-marsh.mp3" type="audio/mpeg">
+                    </audio>
+                </div>
+                <!-- Кнопка No -->
+                <a id="no-button" class="button vybor Klick-no">No</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Окно подтверждения для кнопки No -->
+    <div id="confirmation-window" class="confirmation">
+        <p>Ты точно уверен, что хочешь нажать эту кнопку?</p>
+        <a id="confirm-yes" class="button">Да</a>
+        <a id="confirm-no" class="button">Нет</a>
+    </div>
+
+    <!-- Сообщение об ошибке -->
+    <div id="error-message" class="error-message">
+        <p>Вы совершили ошибку</p>
+    </div>
+
+    <!-- Финальное окно -->
+    <div id="final-screen" class="final-screen">
+        <p>Вы обидели автора сайта</p>
+        <span>Скатина</span>
+
+    </div>
+
+    <script>
+        // Логика для кнопки Yes
+        const yesButton = document.querySelector('.Klick-yes');
+        const hiddenText = document.querySelector('.hidden-text');
+        const audio = document.getElementById('hidden-audio');
+        let isPlaying = false; // Флаг состояния аудио
+
+        yesButton.addEventListener('click', () => {
+            if (isPlaying) {
+                audio.pause(); // Остановить воспроизведение
+                audio.currentTime = 0; // Сбросить время воспроизведения
+                hiddenText.style.display = 'none'; // Скрыть текст
+                isPlaying = false; // Обновить флаг
+            } else {
+                audio.play(); // Начать воспроизведение
+                hiddenText.style.display = 'block'; // Показать текст
+                isPlaying = true; // Обновить флаг
+            }
+        });
+
+        // Логика для кнопки No
+        const noButton = document.getElementById('no-button');
+        const confirmationWindow = document.getElementById('confirmation-window');
+        const confirmYesButton = document.getElementById('confirm-yes');
+        const confirmNoButton = document.getElementById('confirm-no');
+        const errorMessage = document.getElementById('error-message');
+        const finalScreen = document.getElementById('final-screen');
+        const mainContent = document.getElementById('main-content');
+
+        noButton.addEventListener('click', () => {
+            mainContent.style.display = 'none';
+            confirmationWindow.style.display = 'block';
+        });
+
+        // Логика кнопки "Нет" в окне подтверждения
+        confirmNoButton.addEventListener('click', () => {
+            confirmationWindow.style.display = 'none';
+            mainContent.style.display = 'block';
+        });
+
+        // Логика кнопки "Да" в окне подтверждения
+        confirmYesButton.addEventListener('click', () => {
+            confirmationWindow.style.display = 'none';
+            errorMessage.style.display = 'block';
+
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+                mainContent.style.display = 'none';
+                document.body.style.backgroundColor = 'black';
+                finalScreen.style.display = 'block';
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
